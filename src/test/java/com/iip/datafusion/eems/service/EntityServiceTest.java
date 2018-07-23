@@ -3,6 +3,8 @@ package com.iip.datafusion.eems.service;
 import com.iip.datafusion.eems.model.Entity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,18 +20,19 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EntityServiceTest {
+    private static Logger logger = LoggerFactory.getLogger(EntityServiceTest.class);
     @Autowired
     private EntityService entityService;
     @Test
     public void insertEntity() throws Exception{
         Entity  testEntity=new Entity();
-        testEntity.setDisplayName("prople");
+        testEntity.setDisplayName("people");
         testEntity.setTableName("people");
         testEntity.setDbPosition("jdbc:mysql://localhost:3306/");
         testEntity.setEntityType(0);
-        boolean success=entityService.insertEntity(testEntity);
-        if(success){
-            System.out.println("insert successfully");
+        int success=entityService.insertEntity(testEntity);
+        if(success>0){
+            logger.info("insert successfully");
         }
     }
     @Test
@@ -37,7 +40,7 @@ public class EntityServiceTest {
        // String deleteName=2;
         boolean success=entityService.deleteEntity(2);
         if(success){
-            System.out.println("delete successfully");
+            logger.info("delete successfully");
         }
     }
     @Test
@@ -46,7 +49,7 @@ public class EntityServiceTest {
        Iterator it=list.iterator();
        while(it.hasNext()){
            Entity en=(Entity)it.next();
-           System.out.println(en.getDisplayName());
+           logger.info(en.getDisplayName());
        }
     }
 

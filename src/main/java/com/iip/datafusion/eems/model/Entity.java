@@ -1,13 +1,48 @@
 package com.iip.datafusion.eems.model;
-public class Entity{
-    private int  id;
-    private String displayName;
-    private String tableName;
-    private String dbPosition;
-    private int entityType;//0表示实体，1表示事件
-    private String properties;
-    public Entity(){
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Entity{
+    @JsonProperty("id")
+    private int  id;
+    @JsonProperty("displayName")
+    private String displayName;
+    @JsonProperty("tableName")
+    private String tableName;
+    @JsonProperty("dbPosition")
+    private String dbPosition;//格式同dataSourceProperty中的URL  host:port/dataBaseName
+    @JsonProperty("entityType")
+    private int entityType;//0表示实体，1表示事件
+    @JsonProperty("properties")
+    private String properties;
+
+    /*表示该entity是否已连接
+    dbID.isEmpty()==true  未连接
+    dbID.isEmpty()==false 已连接，存储连接的ID
+     */
+    @JsonProperty("dbID")
+    private String dbID;
+
+    @JsonCreator
+    public Entity(@JsonProperty("id") int id,
+                  @JsonProperty("displayName") String displayName,
+                  @JsonProperty("tableName") String tableName,
+                  @JsonProperty("dbPosition") String dbPosition,
+                  @JsonProperty("entityType") int entityType,
+                  @JsonProperty("properties") String properties){
+        this.displayName = displayName;
+        this.tableName = tableName;
+        this.dbPosition = dbPosition;
+        this.entityType = entityType;
+        this.properties = properties;
+        //初始化为空字符串，表示未连接
+        this.dbID="";
+    }
+
+    public Entity(){
+        super();
+        this.dbID="";
     }
 
     public int  getId() {
@@ -47,11 +82,23 @@ public class Entity{
         this.entityType = type;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getProperties() {
         return properties;
     }
 
-    public void setProperties(String proterties) {
-        this.properties = proterties;
+    public void setProperties(String properties) {
+        this.properties = properties;
+    }
+
+    public String getDbID() {
+        return dbID;
+    }
+
+    public void setDbID(String dbID) {
+        this.dbID = dbID;
     }
 }

@@ -1,0 +1,7 @@
+CREATE TABLE `kjb`.`job` (
+    `id` INT NOT NULL,
+    `userID` INT NOT NULL,
+    `jobtype` VARCHAR(45) ,
+    `jobdescription` VARCHAR(100) ,
+    `timestamp` DATETIME ,
+    PRIMARY KEY (`id`));
